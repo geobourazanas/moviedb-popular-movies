@@ -1,0 +1,30 @@
+.MoviesSearch {
+  background-color: #fff;
+  border-radius: 2px;
+  cursor: text;
+  font-size: 18px;
+  height: 44px;
+  line-height: 36px;
+  outline: none;
+  position: relative;
+}
+
+input {
+  box-sizing: border-box;
+  margin: 0;
+  display: block;
+  padding-left: 8px;
+  height: 44px;
+  width: 100%;
+  border-radius: 2px;
+  border: 1px solid #ddd;
+  outline: none;
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+}
+ 
+input:focus {
+  box-shadow: 0 0 5px rgba(204, 204, 204, 1);
+}
