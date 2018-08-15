@@ -1,0 +1,36 @@
+h1 {
+  color: #129286;
+}
+
+.MoviesSearch__list-group {
+  color: #333;
+  padding-left: 0;
+  background-color: #fff;
+}
+
+.MoviesSearch__list-group li {
+  display: block;
+  line-height: 1.6em;
+}
+
+.MoviesSearch__list-group li:nth-of-type(odd) {
+  background-color: #fafafa;
+}
+
+.MoviesSearch__list-group li a {
+  color: #333;
+  text-decoration: none;
+  display: block;
+  padding-left: 8px;
+  border-bottom: 1px solid transparent;
+}
+
+.MoviesSearch__list-group li a span {
+  color: #c3c3c3;
+}
+
+.MoviesSearch__list-group li a:hover {
+  border-bottom: 1px solid #888;
+  color: #888;
+  
+}
