@@ -1,4 +1,19 @@
 import axios from 'axios';
+import {
+  Observable,
+  Subject,
+  from,
+  of,
+  empty,
+} from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+} from 'rxjs/operators';
 
 class API {
   constructor() {
@@ -7,6 +22,8 @@ class API {
       base_uri: 'https://api.themoviedb.org/3/',
       images_uri: 'http://image.tmdb.org/t/p/',
     }
+
+    this.searchTerm = new Subject();
   }
 
   request (url, method = 'GET', extra_params = {}) {
@@ -20,8 +37,27 @@ class API {
     });
   }
 
-  getMostPopular() {
-    return this.request('discover/movie', undefined, {sort_by: 'popularity.desc'});
+  search(term) {
+    this.searchTerm.next(term.value);
+  }
+
+  doSearch(term) {
+    return from(this.request('search/movie', undefined, {query: term}));
+  }
+
+  getResults() {
+    return this.searchTerm
+                .pipe(
+                  debounceTime(500),
+                  distinctUntilChanged(),
+                  switchMap(term => term
+                    ? this.doSearch(term) : empty()),
+                  map(res => res.data.results),
+                  catchError(error => {
+                    console.error(error);
+                    return empty();
+                  }),
+                );
   }
 
 };
