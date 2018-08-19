@@ -1,16 +1,13 @@
 import axios from 'axios';
 import {
-  Observable,
   Subject,
   from,
-  of,
   empty,
 } from 'rxjs';
 import {
   catchError,
   debounceTime,
   distinctUntilChanged,
-  filter,
   map,
   switchMap,
 } from 'rxjs/operators';
