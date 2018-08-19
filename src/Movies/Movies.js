@@ -12,16 +12,14 @@ class Movies extends React.Component {
     this.state = {
       searchResults: [],
     };
-  }
 
-  componentWillMount() {
     this.Api
-        .getResults()
-        .subscribe(res => {
-          this.setState({
-            searchResults: this.sortResults(res),
-          });
+      .getResults()
+      .subscribe(res => {
+        this.setState({
+          searchResults: this.sortResults(res),
         });
+      });
   }
 
   handleTyping(e) {
@@ -35,6 +33,9 @@ class Movies extends React.Component {
 
   handleClick(movie, e) {
     e.preventDefault();
+
+    // From here we can activate some other
+    // view for movie details
   }
 
   emptyList() {
