@@ -6,7 +6,7 @@ import App from './App';
 import Movies from './Movies/Movies';
 
 
-describe('<App />', () => {
+xdescribe('<App />', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(<App />, div);
