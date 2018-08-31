@@ -1,17 +1,17 @@
 import React from 'react';
 import { hot } from 'react-hot-loader';
-import 'normalize.css';
+import { Route } from 'react-router-dom';
 import Movies from './Movies/Movies';
+import 'normalize.css';
 import './App.css';
 
-class App extends React.Component {
-  render () {
-    return (
-      <div className='App'>
-        <Movies />
-      </div>
-    );
-  };
-};
+const App = () => (
+  <div className="App">
+    <Route
+      path="/"
+      component={Movies}
+    />
+  </div>
+);
 
 export default hot(module)(App);
