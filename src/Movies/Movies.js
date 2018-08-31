@@ -20,19 +20,50 @@ class Movies extends React.Component {
     this.Api = new API();
     this.state = {
       searchResults: [],
+      searchTerm: '',
+      redirectDelay: false,
+      selectedMovieDetails: {},
     };
+
+    this.handleTyping = this.handleTyping.bind(this);
+    this.renderMovieDetails = this.renderMovieDetails.bind(this);
+    this.redirectAfterDelay = this.redirectAfterDelay.bind(this);
 
     this.Api
       .getResults()
-      .subscribe(res => {
-        this.setState({
-          searchResults: this.sortResults(res),
-        });
-      });
+      .subscribe(res => this.setState({
+        searchResults: this.sortResults(res),
+      }));
+
+    this.Api
+      .getMovieDetails()
+      .subscribe(res => this.setState({
+        selectedMovieDetails: res,
+      }));
+  }
+
+  componentDidMount() {
+    this.inputElement.focus();
+  }
+
+  componentDidUpdate(prevProps) {
+    this.inputElement.focus();
+    if (this.props.location !== prevProps.location) {
+      this.onRouteChanged();
+    }
+  }
+
+  onRouteChanged() {
+    this.setState({
+      redirectDelay: false,
+      searchTerm: '',
+    });
+    this.emptyList();
   }
 
   handleTyping(e) {
     const term = e.target.value.trim();
+    this.setState({ searchTerm: term });
     if (term.length >= 3) {
       this.Api.search({ value: term });
     } else {
@@ -62,6 +93,28 @@ class Movies extends React.Component {
     );
   }
 
+  redirectAfterDelay() {
+    const { redirectDelay } = this.state;
+    setTimeout(() => this.setState({ redirectDelay: true }), 3000);
+    return (
+      redirectDelay
+        ? <Redirect to="/" />
+        : <h1>You need to select a movie first!</h1>
+    );
+  }
+
+  renderMovieDetails(props) {
+    const { selectedMovieDetails } = this.state;
+    const newProps = {
+      ...props,
+      selectedMovieDetails,
+    };
+    this.Api.selectedMovieId(props.match.params.movieId);
+    return (
+      selectedMovieDetails && <MoviesDetail {...newProps} />
+    );
+  }
+
   render() {
     const {
       searchResults,
@@ -87,14 +140,32 @@ class Movies extends React.Component {
       <div className="MoviesContainer">
         <h1><Link to="/">Most Popular Movies</Link></h1>
         <MoviesSearch
-          onChange={this.handleTyping.bind(this)}
+          inputRef={el => this.inputElement = el}
+          onChange={this.handleTyping}
+          value={searchTerm}
         />
-        {this.state.searchResults && <ul className="MoviesSearch__list-group">
-          {results}
-        </ul>}
+        {searchResults && (
+          <ul className="MoviesSearch__list-group">
+            {results}
+          </ul>
+        )}
+
+        <Route
+          path="/details/:movieId"
+          render={this.renderMovieDetails}
+        />
+        <Route
+          exact
+          path="/details"
+          render={this.redirectAfterDelay}
+        />
       </div>
     );
   }
 }
 
-export default Movies;
+// Wrapping Movies component with withRouter
+// for having access on "prevProps.location" at "componentDidUpdate"
+const MoviesWithRouter = withRouter(Movies);
+
+export default MoviesWithRouter;
