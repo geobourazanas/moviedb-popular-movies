@@ -1,0 +1,37 @@
+.MoviesDetail {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.MoviesDetail__header {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.MoviesDetail__header > h2 {
+  margin-bottom: 0.5rem;
+}
+
+.MoviesDetail__header > div {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.MoviesDetail__img,
+.MoviesDetail__content {
+  width: 50%;
+}
+
+.MoviesDetail__img img {
+  width: 100%;
+}
+
+.MoviesDetail__content {
+  width: calc(50% - 1rem);
+  padding-left: 1rem;
+  line-height: 1.3rem;
+}
+
+.MoviesDetail__content > div {
+  margin-bottom: 0.4rem;
+}

@@ -9,6 +9,8 @@ import {
 
 import API from '../Api/Api';
 import MoviesSearch from './MoviesSearch';
+import MoviesDetail from './MoviesDetail';
+
 import './Movies.css';
 
 class Movies extends React.Component {
