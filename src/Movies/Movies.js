@@ -1,10 +1,17 @@
 import React from 'react';
+import {
+  NavLink,
+  Link,
+  Route,
+  Redirect,
+  withRouter,
+} from 'react-router-dom';
+
 import API from '../Api/Api';
 import MoviesSearch from './MoviesSearch';
 import './Movies.css';
 
 class Movies extends React.Component {
-
   constructor() {
     super();
 
@@ -31,17 +38,17 @@ class Movies extends React.Component {
     }
   }
 
-  handleClick(movie, e) {
-    e.preventDefault();
-
-    // From here we can activate some other
-    // view for movie details
-  }
-
   emptyList() {
     this.setState({
       searchResults: [],
     });
+  }
+
+  clearForm() {
+    this.setState({
+      searchTerm: '',
+    });
+    this.emptyList();
   }
 
   sortResults(arr) {
@@ -54,15 +61,29 @@ class Movies extends React.Component {
   }
 
   render() {
-    const results = this.state.searchResults && this.state.searchResults.map(movie => {
-      return <li className="MoviesSearch__list-group-item" key={movie.id}>
-                <a href="" onClick={(e) => this.handleClick(movie, e)}>{movie.title} <span>(votes: {movie.vote_count})</span></a>
-             </li>
-    });
+    const {
+      searchResults,
+      searchTerm,
+    } = this.state;
+
+    const results = searchResults && searchResults.map(movie => (
+      <li className="MoviesSearch__list-group-item" key={movie.id}>
+        <NavLink
+          to={`/details/${movie.id}`}
+        >
+          {movie.title}
+          <span>
+            (votes:
+            { movie.vote_count }
+            )
+          </span>
+        </NavLink>
+      </li>
+    ));
 
     return (
       <div className="MoviesContainer">
-        <h1>Most Popular Movies</h1>
+        <h1><Link to="/">Most Popular Movies</Link></h1>
         <MoviesSearch
           onChange={this.handleTyping.bind(this)}
         />
