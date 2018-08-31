@@ -1,16 +1,15 @@
 import React from 'react';
 import './MoviesSearch.css';
 
-const MoviesSearch = (props) => {
-
-  return (
-    <div className="MoviesSearch">
-      <input
-        placeholder="Start here..."
-        onChange={props.onChange}
-      />
-    </div>
-  )
-}
+const MoviesSearch = props => (
+  <div className="MoviesSearch">
+    <input
+      ref={props.inputRef}
+      placeholder="Start here..."
+      onChange={props.onChange}
+      value={props.value}
+    />
+  </div>
+);
 
 export default MoviesSearch;
